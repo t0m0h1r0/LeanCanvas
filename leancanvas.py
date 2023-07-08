@@ -118,9 +118,9 @@ class XLSXCreator:
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', required=True, help='Input YAML file')
-    parser.add_argument('-p', '--pptx-output', default="output.pptx", help='Output file (PPTX)')
-    parser.add_argument('-e', '--xlsx-output', default="output.xlsx", help='Output file (XLSX)')
+    parser.add_argument('-i', '--input', default="sample.pptx", help='Input YAML file')
+    parser.add_argument('-p', '--pptx-output', default="sample.pptx", help='Output file (PPTX)')
+    parser.add_argument('-x', '--xlsx-output', default="sample.xlsx", help='Output file (XLSX)')
     args = parser.parse_args()
     return args
 
