@@ -86,6 +86,56 @@ def parse_arguments():
     parser.add_argument('-o', '--output', help='Output PPTX file.', default='sample.pptx')
     return parser.parse_args()
 
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+
+def prepare_workbook():
+    # Create a new workbook
+    wb = Workbook()
+
+    # Remove the default sheet created and return workbook
+    del wb['Sheet']
+
+    return wb
+
+class Args:
+    input = 'sample.yaml'  # 入力YAMLファイル
+    output = 'sample.pptx'  # 出力PPTXファイル
+
+# parse_arguments関数を置き換えます：
+def parse_arguments():
+    return Args()
+
+from openpyxl import Workbook
+from openpyxl.utils import get_column_letter
+
+def create_worksheet(wb, data):
+    ws = wb.active
+    ws.title = "Use cases"
+
+    # ヘッダーの作成
+    headers = ['Project Name', 'Date'] + list(data['Use cases'][0]['Lean Canvas'].keys())
+    ws.append(headers)
+
+    for use_case in data['Use cases']:
+        row = [use_case['Project Name'], use_case['Date']]
+        for section, content in use_case['Lean Canvas'].items():
+            row.append('\n'.join(content))
+        ws.append(row)
+
+        # Adjust column width
+        for idx, column in enumerate(ws.columns, start=1):
+            max_length = 0
+            column = [cell for cell in column]
+            for cell in column:
+                try:
+                    if len(str(cell.value)) > max_length:
+                        max_length = len(cell.value)
+                except:
+                    pass
+            adjusted_width = (max_length + 2)
+            ws.column_dimensions[get_column_letter(idx)].width = adjusted_width
+
 def main():
     args = parse_arguments()
 
@@ -96,6 +146,15 @@ def main():
 
     # Save the presentation
     prs.save(args.output)
+
+    # Create Excel workbook
+    wb = Workbook()
+
+    # Add a worksheet for each use case
+    create_worksheet(wb, data)
+
+    # Save the workbook
+    wb.save(args.output.replace('.pptx', '.xlsx'))
 
 if __name__ == "__main__":
     main()
