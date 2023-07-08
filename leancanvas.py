@@ -23,8 +23,8 @@ class PPTXCreator:
             'Unfair Advantage': (scale_width*3, 0, scale_width, scale_height),
             'Channels': (scale_width*3, scale_height, scale_width, scale_height),
             'Customer Segments': (scale_width*4, 0, scale_width, scale_height*2),
-            'Cost Structure': (0, scale_height*2, scale_width*2, scale_height),
-            'Revenue Streams': (scale_width*2, scale_height*2, scale_width*3, scale_height),
+            'Cost Structure': (0, scale_height*2.5, scale_width*2, scale_height),
+            'Revenue Streams': (scale_width*2, scale_height*2, scale_width*2.5, scale_height),
         }
 
     def create_slide(self, title):
