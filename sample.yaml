@@ -1,0 +1,69 @@
+Use cases:
+  - Project Name: Uber
+    Date: 2023-07-08
+    Lean Canvas:
+      Problem:
+        - 高いタクシー料金
+        - 予約プロセスが不便
+        - サービス品質が一定でない
+      Solution:
+        - アプリベースの予約システム
+        - ダイナミックプライシング
+        - サービス品質を保つためのドライバー評価
+      Key Metrics:
+        - 乗車回数
+        - アクティブユーザー数
+        - 収益
+      Unique Value Proposition:
+        - 手頃な価格で信頼性のある乗車をあなたの指先で
+      Unfair Advantage:
+        - 先行者利益
+        - 強力なブランド認知度
+      Channels:
+        - モバイルアプリ
+        - ビジネスやイベントとのパートナーシップ
+      Customer Segments:
+        - 通勤者
+        - 旅行者
+        - 都市住民
+      Cost Structure:
+        - ドライバーへの手数料
+        - アプリ開発とメンテナンス
+        - マーケティングとプロモーション
+      Revenue Streams:
+        - 乗車料金
+        - ドライバーからの手数料
+
+  - Project Name: Airbnb
+    Date: 2023-07-08
+    Lean Canvas:
+      Problem:
+        - 高額なホテル宿泊費
+        - ローカルな体験が限定的
+        - 予約オプションが不自由
+      Solution:
+        - ホームオーナーが自分の空間を貸し出すためのプラットフォーム
+        - シングルルームから一軒まるまるまでの幅広いオプション
+        - ローカルのように生活することでローカル体験を提供
+      Key Metrics:
+        - 予約数
+        - アクティブユーザー数 (ゲストとホスト)
+        - 収益
+      Unique Value Proposition:
+        - 世界中のどこでもローカルのように生活する
+      Unfair Advantage:
+        - 先行者利益
+        - 広範なグローバルネットワーク
+      Channels:
+        - ウェブサイト
+        - モバイルアプリ
+      Customer Segments:
+        - ローカルな体験を求める旅行者
+        - 空間を有効活用したいホームオーナー
+      Cost Structure:
+        - プラットフォームの開発とメンテナンス
+        - カスタマーサービス
+        - マーケティングとプロモーション
+      Revenue Streams:
+        - 予約からの手数料
+        - ホストサービス手数料
