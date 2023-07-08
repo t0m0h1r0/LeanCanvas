@@ -82,13 +82,11 @@ def prepare_presentation(file_path, scale_width=3, scale_height=2.4):
 def parse_arguments():
     # Parse command line arguments
     parser = argparse.ArgumentParser(description='Create Lean Canvas presentation from YAML.')
-    parser.add_argument('-i', '--input', help='Input YAML file.', default='leancanvas_jp.yaml')
-    parser.add_argument('-o', '--output', help='Output PPTX file.', default='leancanvas.pptx')
+    parser.add_argument('-i', '--input', help='Input YAML file.', default='sample.yaml')
+    parser.add_argument('-o', '--output', help='Output PPTX file.', default='sample.pptx')
     return parser.parse_args()
 
 def main():
-    #Args = namedtuple('Args', ['input', 'output'])
-    #args = Args('leancanvas_jp.yaml', 'leancanvas.pptx')
     args = parse_arguments()
 
     prs, data, positions = prepare_presentation(args.input)
