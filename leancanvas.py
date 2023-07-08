@@ -8,11 +8,24 @@ import yaml
 import argparse
 
 class PPTXCreator:
-    def __init__(self, data):
+    def __init__(self, data, scale_width=3, scale_height=2.4):
         self.data = data
         self.prs = Presentation()
         self.prs.slide_width = Inches(16)
         self.prs.slide_height = Inches(9)
+
+        # Define positions here
+        self.positions = {
+            'Problem': (0, 0, scale_width, scale_height*2),
+            'Solution': (scale_width, 0, scale_width, scale_height),
+            'Key Metrics': (scale_width, scale_height, scale_width, scale_height),
+            'Unique Value Proposition': (scale_width*2, 0, scale_width, scale_height*2),
+            'Unfair Advantage': (scale_width*3, 0, scale_width, scale_height),
+            'Channels': (scale_width*3, scale_height, scale_width, scale_height),
+            'Customer Segments': (scale_width*4, 0, scale_width, scale_height*2),
+            'Cost Structure': (0, scale_height*2, scale_width*2, scale_height),
+            'Revenue Streams': (scale_width*2, scale_height*2, scale_width*3, scale_height),
+        }
 
     def create_slide(self, title):
         blank_slide_layout = self.prs.slide_layouts[6]  # blank layout
@@ -54,11 +67,11 @@ class PPTXCreator:
 
         return slide
 
-    def create_presentation(self, positions, h_offset=0.5, v_offset=1.3):
+    def create_presentation(self, h_offset=0.5, v_offset=1.3):
         for use_case in self.data['Use cases']:
             title = f"{use_case['Project Name']} ({use_case['Date']})"
             slide = self.create_slide(title)
-            for section, (left, top, width, height) in positions.items():
+            for section, (left, top, width, height) in self.positions.items():
                 if section in use_case['Lean Canvas']:
                     text = "\n".join(use_case['Lean Canvas'][section])
                     self.add_textbox(slide, left+h_offset, top+v_offset, width, height, text, section)
@@ -103,30 +116,11 @@ class XLSXCreator:
         self.wb.save(output)
 
 
-def prepare_presentation(file_path, scale_width=3, scale_height=2.4):
-    with open(file_path, encoding="utf-8") as file:
-        data = yaml.safe_load(file)
-
-    positions = {
-        'Problem': (0, 0, scale_width, scale_height*2),
-        'Solution': (scale_width, 0, scale_width, scale_height),
-        'Key Metrics': (scale_width, scale_height, scale_width, scale_height),
-        'Unique Value Proposition': (scale_width*2, 0, scale_width, scale_height*2),
-        'Unfair Advantage': (scale_width*3, 0, scale_width, scale_height),
-        'Channels': (scale_width*3, scale_height, scale_width, scale_height),
-        'Customer Segments': (scale_width*4, 0, scale_width, scale_height*2),
-        'Cost Structure': (0, scale_height*2, scale_width*2, scale_height),
-        'Revenue Streams': (scale_width*2, scale_height*2, scale_width*3, scale_height),
-    }
-
-    return data, positions
-
-
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', default='sample.yaml', help='Input YAML file')
-    parser.add_argument('-p', '--pptx-output', default='sample.pptx', help='Output file (PPTX)')
-    parser.add_argument('-e', '--xlsx-output', default='sample.xlsx', help='Output file (XLSX)')
+    parser.add_argument('-i', '--input', required=True, help='Input YAML file')
+    parser.add_argument('-p', '--pptx-output', default="output.pptx", help='Output file (PPTX)')
+    parser.add_argument('-e', '--xlsx-output', default="output.xlsx", help='Output file (XLSX)')
     args = parser.parse_args()
     return args
 
@@ -135,10 +129,11 @@ def main():
     #args = parse_arguments()
     args = argparse.Namespace(input='sample.yaml', pptx_output='sample.pptx', xlsx_output='sample.xlsx')
 
-    data, positions = prepare_presentation(args.input)
+    with open(args.input, encoding="utf-8") as file:
+        data = yaml.safe_load(file)
 
     pptx_creator = PPTXCreator(data)
-    pptx_creator.create_presentation(positions)
+    pptx_creator.create_presentation()
     pptx_creator.save(args.pptx_output)
 
     xlsx_creator = XLSXCreator(data)
