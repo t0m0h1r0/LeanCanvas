@@ -7,6 +7,7 @@ from openpyxl.utils import get_column_letter
 import yaml
 import argparse
 
+# PPTXファイルを作成するためのクラスを定義します
 class PPTXCreator:
     def __init__(self, data, scale_width=3, scale_height=2.4):
         self.data = data
@@ -127,6 +128,7 @@ class XLSXCreator:
         self.wb.save(output)
 
 
+# コマンドライン引数を解析する関数です
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument('-i', '--input', default="sample.pptx", help='Input YAML file')
@@ -135,6 +137,7 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
+# ファイル処理を行う関数です
 def process_files(input_file, pptx_output, xlsx_output):
     with open(input_file, encoding="utf-8") as file:
         data = yaml.safe_load(file)
