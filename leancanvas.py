@@ -27,16 +27,29 @@ class PPTXCreator:
             'Revenue Streams': (scale_width*2.5, scale_height*2, scale_width*2.5, scale_height),
         }
 
-    def create_slide(self, title):
+    def create_slide(self, project_name, date):
         blank_slide_layout = self.prs.slide_layouts[6]  # blank layout
         slide = self.prs.slides.add_slide(blank_slide_layout)
-        textbox = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(14.5), Inches(0.5))
-        tf = textbox.text_frame
+        
+        # Add Project Name box
+        project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(13), Inches(0.5))
+        tf = project_name_box.text_frame
         p = tf.add_paragraph()
-        p.text = title
+        p.text = project_name
         p.font.size = Pt(20)
-        p.alignment = PP_ALIGN.CENTER
+        p.alignment = PP_ALIGN.LEFT
+    
+        # Add Date box
+        date_box = slide.shapes.add_textbox(Inches(14), Inches(0.5), Inches(1), Inches(0.5))
+        tf = date_box.text_frame
+        p = tf.add_paragraph()
+        p.text = str(date)  # Change here
+        p.font.size = Pt(20)
+        p.alignment = PP_ALIGN.RIGHT
+    
         return slide
+
+
 
     def add_textbox(self, slide, left, top, width, height, text, title):
         textbox = slide.shapes.add_textbox(Inches(left), Inches(top), Inches(width), Inches(height))
@@ -69,8 +82,7 @@ class PPTXCreator:
 
     def create_presentation(self, h_offset=0.5, v_offset=1.3):
         for use_case in self.data['Use cases']:
-            title = f"{use_case['Project Name']} ({use_case['Date']})"
-            slide = self.create_slide(title)
+            slide = self.create_slide(use_case['Project Name'], use_case['Date'])
             for section, (left, top, width, height) in self.positions.items():
                 if section in use_case['Lean Canvas']:
                     text = "\n".join(use_case['Lean Canvas'][section])
@@ -78,7 +90,6 @@ class PPTXCreator:
 
     def save(self, output):
         self.prs.save(output)
-
 
 class XLSXCreator:
     def __init__(self, data):
@@ -124,22 +135,18 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
-
-def main():
-    #args = parse_arguments()
-    args = argparse.Namespace(input='sample.yaml', pptx_output='sample.pptx', xlsx_output='sample.xlsx')
-
-    with open(args.input, encoding="utf-8") as file:
+def process_files(input_file, pptx_output, xlsx_output):
+    with open(input_file, encoding="utf-8") as file:
         data = yaml.safe_load(file)
 
     pptx_creator = PPTXCreator(data)
     pptx_creator.create_presentation()
-    pptx_creator.save(args.pptx_output)
+    pptx_creator.save(pptx_output)
 
     xlsx_creator = XLSXCreator(data)
     xlsx_creator.create_worksheet()
-    xlsx_creator.save(args.xlsx_output)
-
+    xlsx_creator.save(xlsx_output)
 
 if __name__ == "__main__":
-    main()
+    args = parse_arguments()
+    process_files(args.input, args.pptx_output, args.xlsx_output)

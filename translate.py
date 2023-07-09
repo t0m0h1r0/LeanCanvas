@@ -84,7 +84,15 @@ class YamlHandler:
         with open(filename, 'w') as file:
             self.yaml.dump(data, file)
 
-def translate_yaml_file(input_file, output_file, api_key):
+def parse_arguments():
+    parser = argparse.ArgumentParser(description="Translate a YAML file using the DeepL API.")
+    parser.add_argument("--input", default="sample.yaml", help="Input YAML file name.")
+    parser.add_argument("--output", default="sample_en.yaml", help="Output YAML file name.")
+    parser.add_argument("--api_key", required=True, help="DeepL API key.")
+    args = parser.parse_args()
+    return args
+
+def translate_file(input_file, output_file, api_key):
     translator = DeepLTranslator(api_key)
     data_translator = DataTranslator()
     yaml_handler = YamlHandler()
@@ -95,14 +103,6 @@ def translate_yaml_file(input_file, output_file, api_key):
     data_translator.restore_from_text(data, translated_lines)
     yaml_handler.dump(data, output_file)
 
-def main():
-    parser = argparse.ArgumentParser(description="Translate a YAML file using the DeepL API.")
-    parser.add_argument("--input", default="sample.yaml", help="Input YAML file name.")
-    parser.add_argument("--output", default="sample_en.yaml", help="Output YAML file name.")
-    parser.add_argument("--api_key", required=True, help="DeepL API key.")
-    args = parser.parse_args()
-
-    translate_yaml_file(args.input, args.output, args.api_key)
-
 if __name__ == "__main__":
-    main()
+    args = parse_arguments()
+    translate_file(args.input, args.output, args.api_key)
