@@ -4,34 +4,34 @@ Use cases:
   Date: 1998-09-04
   Lean Canvas:
     Problem:
-    - Searching web pages is incomplete and inconvenient
+    - Incomplete and inconvenient search of web pages
     - Inconsistent quality of search results
     - Low relevance of search results
     Solution:
     - High quality search engine using PageRank algorithm
     - Improved user search experience
-    - Organize and search web pages more efficiently
+    - Organize web pages and improve search efficiency
     Key Metrics:
     - Number of search queries
     - Number of active users
-    - User Feedback
+    - User feedback
     Unique Value Proposition:
-    - Quickly find the most relevant information
-    - Powerful tools to explore the Web efficiently
+    - Find the most relevant information quickly
+    - Powerful tools for efficient web exploration
     Unfair Advantage:
-    - Advanced Search Algorithm (PageRank)
+    - Advanced search algorithm (PageRank)
     - Superior search results compared to other search engines
     Channels:
-    - Website
+    - Websites
     - Word of Mouth
-    - Media Exposure
+    - Media exposure
     Customer Segments:
-    - Internet users overall
-    - People who need information for their business
+    - Overall Internet users
+    - People who need information for their businesses
     Cost Structure:
-    - Maintain servers and infrastructure
-    - Algorithm and Software Development
-    - Marketing and Brand Building
+    - Maintaining servers and infrastructure
+    - Algorithm and software development
+    - Marketing and brand building
     Revenue Streams:
     - Advertising revenue (AdWords and AdSense)
 
@@ -39,45 +39,44 @@ Use cases:
   Date: 2009-03-01
   Lean Canvas:
     Problem:
-    - Cab access is inconvenient and time consuming
-    - Cab fares are high.
-    - Difficult to book a hired car
+    - Cab service is inconvenient and time consuming
+    - Cab fares are expensive
+    - Difficult to reserve a hired car
     Solution:
-    - A service that allows users to call for a car in real time through a smartphone
-      app
-    - Fixed price system with clear rates.
-    - Providing premium hire services
+    - Real-time car hailing service through a smartphone app
+    - Offers a fixed and clear fare
+    - Provides premium hire car service
     Key Metrics:
     - Number of app downloads
-    - Number of Rides
-    - User Feedback
+    - Number of rides
+    - User feedback
     Unique Value Proposition:
-    - Just tap to board anywhere
-    - Know the fees in advance.
+    - Ride anywhere with just a tap
+    - Know the fare in advance
     - Comfortable car ride
     Unfair Advantage:
     - No other similar service exists
-    - New Vehicle Calling Experience Using Technology
+    - New vehicle call experience using technology
     Channels:
-    - Smart Phone Apps
+    - Smartphone Apps
     - Word of Mouth
-    - Media Exposure
+    - Media exposure
     Customer Segments:
-    - Affluent people seeking hire services
-    - Businessmen who frequently use cabs
+    - High-net-worth individuals seeking for-hire services
+    - Business people who frequently use cabs
     Cost Structure:
-    - Application development and maintenance
-    - Marketing and Brand Building
-    - Customer Support
+    - App development and maintenance
+    - Marketing and brand building
+    - Customer support
     Revenue Streams:
-    - one's fare for a train or bus
-    - Premium Service Offerings
+    - Ride fees
+    - Premium service offerings
 
 - Project Name: Pure Storage (at the beginning)
   Date: 2009-10-01
   Lean Canvas:
     Problem:
-    - Expensive, low performance traditional disk-based storage
+    - Traditional disk-based storage with high cost and low performance
     - Storage management is complex and time consuming
     Solution:
     - 100% flash-based storage system
@@ -85,50 +84,50 @@ Use cases:
     Key Metrics:
     - Number of products sold
     - Number of new customers
-    - customer satisfaction
+    - Customer Satisfaction
     Unique Value Proposition:
     - Fast and simple storage solution
     Unfair Advantage:
     - Pioneer specializing in flash storage
-    - Advanced data reduction techniques
+    - Advanced data reduction technology
     Channels:
-    - Direct Sale
+    - Direct Sales
     - Partners
     Customer Segments:
-    - Data-driven enterprise
-    - Businesses requiring high-performance storage
+    - Data-centric enterprise
+    - Businesses requiring high performance storage
     Cost Structure:
     - Product Development and Maintenance
     - Marketing and Sales
     - Customer Support
     Revenue Streams:
     - Hardware sales
-    - Support and Service Fees
+    - Support and service fees
 
 - Project Name: Pure Storage (current)
   Date: 2023-07-08
   Lean Canvas:
     Problem:
-    - Need to cope with increasing data volume
+    - Need to keep pace with increasing data volumes
     - Complexity of managing data in a multi-cloud environment
     Solution:
-    - Scalable all-flash storage solution
+    - Scalable all-flash storage solutions
     - Cloud-enabled data services and integrated management platform
     Key Metrics:
     - Number of products sold
     - Number of new customers
     - Number of subscriptions to cloud services
     Unique Value Proposition:
-    - Fast, simple, scalable cloud-enabled storage solutions
+    - Fast, simple, scalable cloud-ready storage solutions
     Unfair Advantage:
-    - Pioneer of all-flash storage
+    - Pioneer in all-flash storage
     - Powerful data platform with multi-cloud support
     Channels:
-    - Direct Sale
+    - Direct Sales
     - Partners
-    - cloud marketplace
+    - Cloud Marketplace
     Customer Segments:
-    - Data-driven enterprise
+    - Data-centric enterprise
     - Businesses using multi-cloud
     Cost Structure:
     - Product Development and Maintenance
@@ -136,42 +135,42 @@ Use cases:
     - Customer Support
     Revenue Streams:
     - Hardware sales
-    - Subscription to cloud services
-    - Support and Service Fees
+    - Cloud service subscriptions
+    - Support and service fees
 
 - Project Name: Dell EMC APEX (at the beginning)
   Date: 2021-10-01
   Lean Canvas:
     Problem:
-    - Managing IT infrastructure is complex and time consuming
+    - IT infrastructure management is complex and time consuming
     - Difficult to expand or upgrade data centers
     - Burden of CAPEX
     Solution:
-    - A platform of IT solutions offered in a single package
-    - Cloud-like consumption model (OPEX-based)
-    - Scale up and down according to the scope of application
+    - Platform of IT solutions delivered in bulk
+    - Cloud-like consumption model (OPEX based)
+    - Can scale up or down depending on scope of application
     Key Metrics:
     - Number of users
-    - total contract amount
-    - Uptime for service
+    - Total contract value
+    - Uptime of service
     Unique Value Proposition:
-    - Enable simple and flexible IT consumption and management
+    - Enables simple and flexible IT consumption and management
     Unfair Advantage:
-    - Dell EMC's existing product and customer base
+    - Existing Dell EMC product and customer base
     - Integrated hardware and software management
     Channels:
-    - Dell EMC's existing business channels
+    - Existing Dell EMC business channels
     - Website
     Customer Segments:
-    - smaller companies
-    - Enterprise Organization
+    - Small and Medium Businesses
+    - Enterprise organizations
     Cost Structure:
-    - Platform development and maintenance
-    - Hardware and software costs
-    - Marketing and Promotion
+    - Platform Development and Maintenance
+    - Hardware and Software Costs
+    - Marketing and promotion
     Revenue Streams:
-    - Subscription Fees
-    - Service and Support Fees
+    - Subscription fees
+    - Service and support fees
 
 - Project Name: OpenShift (at the beginning)
   Date: 2011-05-04
@@ -179,80 +178,80 @@ Use cases:
     Problem:
     - Traditional hosting services are difficult to set up and manage
     - On-premise infrastructure is difficult to scale
-    - No way to deploy own applications quickly
+    - No way to deploy your own applications quickly
     Solution:
-    - Serving as a cloud-based platform
-    - Automatic scaling and Infrastructure as Code (IaC)
+    - Served as a cloud-based platform
+    - Enables auto-scaling and Infrastructure as Code (IaC)
     - Enables easy application deployment and management
     Key Metrics:
     - Number of users
     - Number of deployments
     - Average uptime
     Unique Value Proposition:
-    - Cloud services from deployment to scaling with ease
+    - Cloud services for easy deployment and scaling
     Unfair Advantage:
     - Strong Red Hat brand and existing customer base
-    - Extensive community support due to its open source nature
+    - Extensive community support due to its Open source nature
     Channels:
     - Website
     - Red Hat's existing business channels
-    - open source community
+    - Open source community
     Customer Segments:
-    - developer
-    - smaller companies
-    - Enterprise Organization
+    - Developers
+    - Small and Medium Enterprises
+    - Enterprise Organizations
     Cost Structure:
-    - Platform development and maintenance
-    - Maintain cloud infrastructure
+    - Platform Development and Maintenance
+    - Maintaining Cloud Infrastructure
     - Marketing and Promotion
     Revenue Streams:
     - Subscription Fees
-    - Support and Consulting
+    - Support and consulting
 
-- Project Name: Kubernetes was invented and made into a business under the assumption
-    that Kubernetes did not exist.
+- Project Name: Conceive Kubernetes and turn it into a business under the assumption
+    that Kubernetes does not exist
   Date: 2023-07-08
   Lean Canvas:
     Problem:
     - Difficult to manage microservices
     - Ensure system scalability and reliability
     - Complex infrastructure state management
-    - Automated deployment and rolling updates
+    - Automate deployment and rolling updates
     Solution:
     - Provide orchestration tools like Kubernetes
-    - Load Balancing and Service Discovery
-    - Infrastructure-as-Code (IaC) to manage status
-    - Automatic repair by reconsiliation mechanism
+    - Load balancing and service discovery
+    - Manage state with Infrastructure as Code (IaC)
+    - Automatic repair with reconsiliation mechanism
     - Automated rollout and rollback
     Key Metrics:
     - Number of active users
     - Number of deployed applications
-    - earnings
+    - Revenue
     Unique Value Proposition:
     - Provides efficient microservice management
-    - Simplify management by coding infrastructure
-    - Automatic repair and reliability assurance through reconsiliation
+    - Coding of infrastructure to simplify management
+    - Reconciliation to ensure automatic repair and reliability
     Unfair Advantage:
-    - Initial Advantage for a time when Kubernetes does not exist
+    - Initial advantage for a time when Kubernetes does not exist
     - Deep cloud-native technology knowledge and experience
     Channels:
     - Website
-    - cloud marketplace
+    - Cloud Marketplace
     - Partnerships (cloud providers, development tools, etc.)
     Customer Segments:
     - Companies using microservices
     - Developers looking for scalability and reliability
-    - Companies requiring advanced application deployment
+    - Enterprises requiring advanced application deployment
     Cost Structure:
-    - Development and Maintenance
-    - Customer Support
-    - Marketing and Promotion
+    - Development and maintenance
+    - Customer support
+    - Marketing and promotion
     Revenue Streams:
-    - Software license fee based on system size
-    - Consulting and Customization Service Fees
+    - Software license fees based on system size
+    - Consulting and customization service fees
 
-- Project Name: SRE was conceived and made into a business based on the assumption
-    that the concept of SRE did not exist.
+- Project Name: SRE is conceived and made into a business based on the assumption
+    that the concept of SRE does not exist
   Date: 2003-08-01
   Lean Canvas:
     Problem:
@@ -261,33 +260,32 @@ Use cases:
     - Slow release of new features
     Solution:
     - New engineering roles to integrate operations and development
-    - System operation applying software engineering principles
+    - System operations applying software engineering principles
     - Increased release speed through automation and Infrastructure as Code (IaC)
     Key Metrics:
-    - User system downtime
+    - System downtime for users
     - Release speed of new features
-    - System Reliability
+    - System reliability
     Unique Value Proposition:
     - Reliable system operation by applying software engineering methods
     Unfair Advantage:
-    - Pioneer of new operational methods
-    - Ability to increase both system reliability and the speed at which new features
-      are released
+    - Pioneer new operational methodologies
+    - Ability to improve both system reliability and release speed of new features
     Channels:
     - Internet (websites, blogs, social media)
-    - Seminars and Conferences
+    - Seminars and conferences
     - Partnerships (e.g., IT consulting firms)
     Customer Segments:
     - Companies suffering from system downtime
-    - Companies that feel that the release of new features is slow
+    - Companies experiencing slow release of new features
     Cost Structure:
-    - Engineer Salary
+    - Engineer salaries
     - Marketing and sales costs
     - R&D
     Revenue Streams:
-    - service contract fee
-    - Software license fee
-    - Consulting Fee
+    - Service contract fees
+    - Software license fees
+    - Consulting fees
 
 - Project Name: nCino
   Date: 2012-07-12
@@ -297,79 +295,79 @@ Use cases:
     - Poor customer experience and low satisfaction
     - Difficulties in regulatory compliance
     Solution:
-    - Cloud-based centralized bank operating system
+    - Cloud-based centralized banking operating system
     - Digitization to improve customer service
     - Dashboard for real-time monitoring and reporting
     Key Metrics:
     - Number of new banks registered on the platform
-    - Transaction volume by bank
-    - (degree of) customer satisfaction
+    - Volume of transactions by banks
+    - Customer satisfaction
     Unique Value Proposition:
     - A centralized system that digitizes and streamlines the bank's business processes
     Unfair Advantage:
-    - Cloud-based platform developed from the beginning, unlike existing bank legacy
+    - Platform developed from the beginning as cloud-based, unlike existing bank legacy
       systems
     - Services embedded within the Salesforce ecosystem
     Channels:
     - Internet (websites, blogs, social media)
     - Direct partnerships with banks
     Customer Segments:
-    - Banks considering migration from legacy systems
-    - Banks seeking to improve customer experience
+    - Banks looking to migrate from legacy systems
+    - Banks looking to improve customer experience
     Cost Structure:
-    - Engineer Salary
+    - Engineer salaries
     - Cloud infrastructure maintenance costs
     - Marketing and sales costs
     Revenue Streams:
     - Software subscription fees
-    - Support and Customization Service Fees
+    - Support and customization service fees
 
 - Project Name: NANOX
   Date: 2016-01-01
   Lean Canvas:
     Problem:
-    - High cost of X-ray equipment
-    - Limited medical diagnosis in inaccessible areas
+    - High cost of x-ray equipment
+    - Limited availability of medical diagnostics in inaccessible areas
     - Waiting time for diagnostic results
     Solution:
     - Low-cost, compact X-ray equipment (Nanox.ARC)
     - Cloud-based diagnostic network (Nanox.Cloud)
-    - Immediate diagnostic support using AI
+    - Instant diagnostic support using AI
     Key Metrics:
     - Number of Nanox.ARC shipments
     - Number of connections to Nanox.Cloud
-    - Diagnostic processing volume by AI
+    - AI-based diagnostic throughput
     Unique Value Proposition:
-    - Provide low-cost, accessible x-ray diagnostic technology
+    - Provision of low-cost, accessible x-ray diagnostic technology
     Unfair Advantage:
-    - Development of innovative low-cost X-ray systems
-    - Integrated solution combining cloud-based diagnostic platform
+    - Development of innovative low-cost x-ray systems
+    - Integrated solutions combining cloud-based diagnostic platforms
     Channels:
     - Direct sales to medical institutions
     - Medical events and conferences
-    - Online (website, social media)
+    - Online (websites, social media)
     Customer Segments:
     - Medical institutions in developing countries
-    - Local clinics and small hospitals
+    - Rural clinics and small hospitals
     - Large medical institutions and hospitals
     Cost Structure:
-    - R&D Expenses
-    - production cost
+    - Research and development costs
+    - Production costs
     - Marketing and sales costs
     Revenue Streams:
-    - Nanox.ARC for sale
-    - Nanox.Cloud service fees
-    - Fees for AI Diagnostic Support
+    - Sales of Nanox.ARC
+    - Nanox.Cloud service usage fees
+    - AI diagnostic support usage fees
 
 - Project Name: Snowflake
   Date: 2012-07-01
   Lean Canvas:
     Problem:
-    - Scaling issues with existing data warehouses
+    - Existing data warehouse scaling issues
     - Data consistency and security issues
     - Slow data processing speed
     Solution:
-    - Cloud-native data warehousing
+    - Cloud-native data warehouse
     - Scalable storage and computing resources on demand
     - Centralized data management and fast query processing
     Key Metrics:
@@ -377,32 +375,32 @@ Use cases:
     - Amount of storage and computing resources used
     - Number of queries to the data warehouse
     Unique Value Proposition:
-    - Provide a fast and scalable data warehouse in the cloud
+    - Fast and scalable data warehouse in the cloud
     Unfair Advantage:
     - Cloud-native design for both data warehouse scaling and query performance
-    - On-demand scaling and fee structure
+    - On-demand scaling and pricing structure
     Channels:
     - Website
-    - cloud marketplace
+    - Cloud Marketplace
     - Direct Sales and Partnerships
     Customer Segments:
-    - enterprise
-    - Tech Startups
+    - Large Enterprises
+    - Tech startups
     - Various industries requiring data analysis
     Cost Structure:
     - Platform development and maintenance
     - Cost of using cloud services
     - Marketing and sales costs
     Revenue Streams:
-    - Billing based on usage volume
-    - Rate plans for long-term use
+    - Usage-based billing
+    - Pricing plans for long-term use
     - Cost of data migration and consulting services
 
 - Project Name: C3.AI
   Date: 2009-01-01
   Lean Canvas:
     Problem:
-    - Difficult to utilize AI and big data
+    - Difficult to leverage AI and big data
     - Difficult to integrate with existing enterprise systems
     - Lack of scalable AI solutions
     Solution:
@@ -411,44 +409,44 @@ Use cases:
     - Highly scalable AI applications
     Key Metrics:
     - Number of AI applications running on the platform
-    - data processing volume
+    - Data processing volume
     - Customer satisfaction and repeat business
     Unique Value Proposition:
-    - AI-enabled business transformation platform
+    - Platform enables AI-enabled business transformation
     Unfair Advantage:
-    - Provide consistent AI solutions
-    - High level of integration capability with existing systems
+    - Consistent AI solution delivery
+    - Ability to highly integrate with existing systems
     Channels:
     - Website
-    - direct sales
-    - partnership
+    - Direct Sales
+    - Partnerships
     Customer Segments:
-    - enterprise
-    - Enterprise Software Developer
+    - Large Enterprises
+    - Enterprise Software Developers
     Cost Structure:
     - Platform development and maintenance
     - Sales and marketing costs
     - Customer support and training costs
     Revenue Streams:
     - Platform usage fees
-    - Consulting fees for providing solutions
+    - Consulting fees for solution delivery
     - Customization and development support costs
 
 - Project Name: Unity
   Date: 2004-08-02
   Lean Canvas:
     Problem:
-    - Advanced game development skills and resource requirements
+    - High skill and resource requirements for game development
     - Difficult to port to multiple platforms
     Solution:
-    - Providing an integrated development environment that simplifies game development
-    - One-click, multi-platform support
+    - Provides an integrated development environment that simplifies game development
+    - Support for multiple platforms with a single click
     Key Metrics:
     - Number of users
     - Number of games developed
-    - Use of time
+    - Time of use
     Unique Value Proposition:
-    - Game Development Made Easy for Everyone
+    - Game development made easy for everyone
     Unfair Advantage:
     - User-friendly interface for beginners and professionals alike
     - Extensive platform support
@@ -456,13 +454,13 @@ Use cases:
     - Website
     - Partnerships with Educational Institutions
     Customer Segments:
-    - game developer
-    - educational institution
+    - Game Developers
+    - Educational Institutions
     Cost Structure:
     - Development and maintenance costs
-    - marketing cost
+    - Marketing costs
     Revenue Streams:
-    - Professional version licenses for sale
+    - Professional version license sales
     - Subscription fees for services
     - Revenue from Unity Asset Store
 
@@ -470,52 +468,52 @@ Use cases:
   Date: 2006-09-01
   Lean Canvas:
     Problem:
-    - Lack of a platform to give shape to one's ideas
-    - Lack of safe online gaming environment for children
+    - Lack of a platform to give shape to their ideas
+    - Lack of a safe online gaming environment for children
     Solution:
     - Platform for users to create and share their own games
     - Safe environment with strong norms and moderation system
     Key Metrics:
     - Number of registered users
     - Number of games created
-    - Average utilization time
+    - Average time spent on the site
     Unique Value Proposition:
-    - Experience creating your own games and sharing them with others
+    - Experience of creating your own games and sharing them with others
     Unfair Advantage:
     - Unique user-generated content and social bodies
-    - High brand recognition and safety for children
+    - High brand awareness and safety for children
     Channels:
     - Website
-    - Mobile Apps
+    - Mobile apps
     Customer Segments:
-    - Children and Youth
+    - Children and youth
     - People who want to learn game development
     Cost Structure:
     - Platform development and maintenance
-    - Moderation and norm reinforcement
-    - marketing cost
+    - Moderation and norm enforcement
+    - Marketing costs
     Revenue Streams:
     - Sale of virtual currency "Robux
-    - Subscription Fees
-    - Advertising Revenue
+    - Subscription fees
+    - Advertising revenues
 
 - Project Name: Tesla
   Date: 2003-07-01
   Lean Canvas:
     Problem:
-    - Highly oil-dependent vehicle industry
+    - Petroleum-dependent vehicle industry
     - Negative environmental impact
     Solution:
-    - Manufacture of high-performance, environmentally friendly electric vehicles
-    - Battery Technology Innovation
+    - High Performance, Environmentally Friendly Electric Vehicle Manufacturing
+    - Innovation in battery technology
     Key Metrics:
-    - Number of units sold
+    - Sales volume
     - Brand recognition
-    - earnings
+    - Profitability
     Unique Value Proposition:
     - Fast and sustainable energy solutions
     Unfair Advantage:
-    - Brand awareness and innovation
+    - Brand Awareness and Innovation
     - Advanced Battery Technology
     Channels:
     - Direct Distributors
@@ -524,41 +522,41 @@ Use cases:
     - Environmentally Conscious Consumers
     - Premium segment car buyers
     Cost Structure:
-    - Manufacturing cost
-    - R & D
-    - Operating and administrative expenses
+    - Manufacturing Costs
+    - Research and development
+    - Sales and administrative costs
     Revenue Streams:
-    - Vehicle Sales
-    - Services and Accessories
+    - Vehicle sales
+    - Service and accessories
 
 - Project Name: SpaceX
   Date: 2002-03-14
   Lean Canvas:
     Problem:
-    - High-cost space exploration
-    - Non-reusable rocket
+    - High Cost Space Exploration
+    - Non-Reusable Launch Vehicles
     Solution:
-    - Development of reusable rockets
-    - Realization of low-cost space travel
+    - Development of reusable launch vehicles
+    - Low-cost space travel
     Key Metrics:
     - Number of launches
     - Number of successful reusable rockets
     - Number of contracts
     Unique Value Proposition:
-    - Allow humans to explore the universe and live on other planets
+    - Enable humans to explore space and live on other planets
     Unfair Advantage:
-    - Reusable Rocket Technology
+    - Reusable Launch Vehicle Technology
     - Strong brand and innovation
     Channels:
-    - Government Contracts
-    - Commercial Launch Agreement
+    - Government contracts
+    - Commercial Launch Contracts
     Customer Segments:
-    - government body (agency)
-    - satellite company
+    - Government agencies
+    - Satellite companies
     Cost Structure:
-    - Rocket Development and Manufacturing
-    - Launch costs
-    - R & D
+    - Rocket development and manufacturing
+    - Launch Costs
+    - Research and Development
     Revenue Streams:
-    - launch contract
-    - Income from space travel
+    - Launch Contracts
+    - Revenue from space travel
