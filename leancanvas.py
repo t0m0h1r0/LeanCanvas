@@ -9,11 +9,12 @@ import argparse
 
 # PPTXファイルを作成するためのクラスを定義します
 class PPTXCreator:
-    def __init__(self, data, scale_width=3, scale_height=2.4):
+    def __init__(self, data, font_name='Yu Gothic UI', scale_width=3, scale_height=2.4):
         self.data = data
         self.prs = Presentation()
         self.prs.slide_width = Inches(16)
         self.prs.slide_height = Inches(9)
+        self.font_name = font_name
 
         # Define positions here
         self.positions = {
@@ -33,19 +34,21 @@ class PPTXCreator:
         slide = self.prs.slides.add_slide(blank_slide_layout)
         
         # Add Project Name box
-        project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(13), Inches(0.5))
+        project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(12), Inches(0.5))
         tf = project_name_box.text_frame
         p = tf.add_paragraph()
         p.text = project_name
         p.font.size = Pt(20)
+        p.font.name = self.font_name
         p.alignment = PP_ALIGN.LEFT
     
         # Add Date box
-        date_box = slide.shapes.add_textbox(Inches(14), Inches(0.5), Inches(1), Inches(0.5))
+        date_box = slide.shapes.add_textbox(Inches(13), Inches(0.5), Inches(2), Inches(0.5))
         tf = date_box.text_frame
         p = tf.add_paragraph()
         p.text = str(date)  # Change here
         p.font.size = Pt(20)
+        p.font.name = self.font_name
         p.alignment = PP_ALIGN.RIGHT
     
         return slide
@@ -64,15 +67,17 @@ class PPTXCreator:
         p = tf.paragraphs[0]
         p.text = title
         p.font.size = Pt(16)
+        p.font.name = self.font_name
         p.font.color.rgb = RGBColor(0x00, 0x80, 0x00)  # Green color
         p.font.underline = MSO_UNDERLINE.SINGLE_LINE
 
         # Add content with bullet points
         for line in text.split('\n'):
             p = tf.add_paragraph()
-            p.text = f"・{line}"
+            p.text = f"\u2022{line}"
             p.level = 0
-            p.font.size = Pt(9)
+            p.font.size = Pt(10)
+            p.font.name = self.font_name
 
         # Add border to textbox
         line = textbox.line
