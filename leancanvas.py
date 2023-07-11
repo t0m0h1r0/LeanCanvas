@@ -16,15 +16,17 @@ from pptx.dml.color import RGBColor
 import argparse
 
 class PPTXCreator:
+    # クラスの初期化メソッド
     def __init__(self, data, font_name='Yu Gothic UI', scale_width=3, scale_height=2.1):
-        self.data = data
-        self.prs = Presentation()
-        self.prs.slide_width = Inches(16)
-        self.prs.slide_height = Inches(9)
-        self.font_name = font_name
-        self.scale_width = scale_width
-        self.scale_height = scale_height
+        self.data = data  # 入力データ
+        self.prs = Presentation()  # Presentationオブジェクトの生成
+        self.prs.slide_width = Inches(16)  # スライドの幅を16インチに設定
+        self.prs.slide_height = Inches(9)  # スライドの高さを9インチに設定
+        self.font_name = font_name  # 使用するフォント名
+        self.scale_width = scale_width  # テキストボックスの幅スケール
+        self.scale_height = scale_height  # テキストボックスの高さスケール
 
+        # Lean Canvasの各セクションの位置情報（左上の座標と幅、高さ）
         self.positions = {
             'Problem': (0, 0, scale_width, scale_height*2),
             'Solution': (scale_width, 0, scale_width, scale_height),
@@ -37,11 +39,8 @@ class PPTXCreator:
             'Revenue Streams': (scale_width*2.5, scale_height*2, scale_width*2.5, scale_height),
         }
 
-    def create_slide(self, project, h_offset=0.5, v_offset=1.3):
-        blank_slide_layout = self.prs.slide_layouts[6]  # blank layout
-        slide = self.prs.slides.add_slide(blank_slide_layout)
-        
-        # Add Project Name box
+    # プロジェクト名のテキストボックスを作成するメソッド
+    def create_project_name_box(self, slide, project):
         project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(12), Inches(0.5))
         tf = project_name_box.text_frame
         p = tf.paragraphs[0]
@@ -49,23 +48,26 @@ class PPTXCreator:
         p.font.size = Pt(20)
         p.font.name = self.font_name
         p.alignment = PP_ALIGN.LEFT
-    
-        # Add Date box
+
+    # 日付のテキストボックスを作成するメソッド
+    def create_date_box(self, slide, project):
         date_box = slide.shapes.add_textbox(Inches(13), Inches(0.5), Inches(2), Inches(0.5))
         tf = date_box.text_frame
         p = tf.paragraphs[0]
-        p.text = str(project['Date'])  # Change here
+        p.text = str(project['Date'])
         p.font.size = Pt(20)
         p.font.name = self.font_name
         p.alignment = PP_ALIGN.RIGHT
-        
-        # Add Lean Canvas sections
+
+    # Lean Canvasの各セクションを作成するメソッド
+    def create_lean_canvas_sections(self, slide, project, h_offset=0.5, v_offset=1.3):
         for section, (left, top, width, height) in self.positions.items():
             if section in project['Lean Canvas']:
                 text = "\n".join(project['Lean Canvas'][section])
                 self.add_textbox(slide, left+h_offset, top+v_offset, width, height, text, section)
 
-        # Add 'Use cases' section separately
+    # 'Use cases'セクションを作成するメソッド
+    def create_use_cases_section(self, slide, project, h_offset=0.5, v_offset=1.3):
         if 'Use cases' in project and project['Use cases']:
             use_cases_text = "\n".join(project['Use cases'])
             use_cases_box = slide.shapes.add_textbox(Inches(0+h_offset), Inches(3*self.scale_height+v_offset), Inches(5*self.scale_width), Inches(self.scale_height))
@@ -74,8 +76,7 @@ class PPTXCreator:
             tf.auto_size = False
             tf.text_anchor = MSO_ANCHOR.TOP
             tf.clear()
-            
-            # Add 'Use cases' title
+
             p = tf.paragraphs[0]
             p.text = 'Use cases'
             p.font.size = Pt(16)
@@ -88,7 +89,17 @@ class PPTXCreator:
                 p.level = 0
                 p.font.size = Pt(10)
                 p.font.name = self.font_name
-            
+
+    # スライドを作成するメソッド
+    def create_slide(self, project):
+        blank_slide_layout = self.prs.slide_layouts[6]  # blank layout
+        slide = self.prs.slides.add_slide(blank_slide_layout)
+        
+        self.create_project_name_box(slide, project)
+        self.create_date_box(slide, project)
+        self.create_lean_canvas_sections(slide, project)
+        self.create_use_cases_section(slide, project)
+
         return slide
 
     def add_textbox(self, slide, left, top, width, height, text, title):
