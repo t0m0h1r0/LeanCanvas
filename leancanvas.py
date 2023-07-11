@@ -88,6 +88,10 @@ class PPTXCreator:
 
     def create_presentation(self, h_offset=0.5, v_offset=1.3):
         for use_case in self.data['Use cases']:
+            if not use_case.get('Project Name'):
+                continue
+            if use_case.get('Project Name') is None:
+                continue
             slide = self.create_slide(use_case['Project Name'], use_case['Date'])
             for section, (left, top, width, height) in self.positions.items():
                 if section in use_case['Lean Canvas']:
@@ -111,6 +115,10 @@ class XLSXCreator:
         ws.append(headers)
 
         for use_case in self.data['Use cases']:
+            if not use_case.get('Project Name'):
+                continue
+            if use_case.get('Project Name') is None:
+                continue
             row = [use_case['Project Name'], use_case['Date']]
             for section, content in use_case['Lean Canvas'].items():
                 row.append('\n'.join(content))
