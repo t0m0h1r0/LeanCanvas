@@ -1,5 +1,5 @@
-Use cases:
-  #https://chat.openai.com/share/60ddf48a-6708-45fa-a4b6-b7a5d93ed690
+Projects:
+  #https://chat.openai.com/share/60ddf48a-6708-45fa-a4b6-b7a5d93ed690        
 - Project Name: Google (at the beginning)
   Date: 1998-09-04
   Lean Canvas:
@@ -221,7 +221,7 @@ Use cases:
     - Provide orchestration tools like Kubernetes
     - Load balancing and service discovery
     - Manage state with Infrastructure as Code (IaC)
-    - Automatic repair with reconsiliation mechanism
+    - Automated repair with reconsiliation mechanism
     - Automated rollout and rollback
     Key Metrics:
     - Number of active users
@@ -336,7 +336,7 @@ Use cases:
     Key Metrics:
     - Number of Nanox.ARC shipments
     - Number of connections to Nanox.Cloud
-    - AI-based diagnostic throughput
+    - Volume of diagnostic processing by AI
     Unique Value Proposition:
     - Provision of low-cost, accessible X-ray diagnostic technology
     Unfair Advantage:

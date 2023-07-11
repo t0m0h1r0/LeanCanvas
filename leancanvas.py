@@ -8,15 +8,23 @@ import yaml
 import argparse
 
 # PPTXファイルを作成するためのクラスを定義します
+import yaml
+from pptx import Presentation
+from pptx.util import Inches, Pt
+from pptx.enum.text import PP_ALIGN, MSO_ANCHOR, MSO_UNDERLINE
+from pptx.dml.color import RGBColor
+import argparse
+
 class PPTXCreator:
-    def __init__(self, data, font_name='Yu Gothic UI', scale_width=3, scale_height=2.4):
+    def __init__(self, data, font_name='Yu Gothic UI', scale_width=3, scale_height=2.1):
         self.data = data
         self.prs = Presentation()
         self.prs.slide_width = Inches(16)
         self.prs.slide_height = Inches(9)
         self.font_name = font_name
+        self.scale_width = scale_width
+        self.scale_height = scale_height
 
-        # Define positions here
         self.positions = {
             'Problem': (0, 0, scale_width, scale_height*2),
             'Solution': (scale_width, 0, scale_width, scale_height),
@@ -29,15 +37,15 @@ class PPTXCreator:
             'Revenue Streams': (scale_width*2.5, scale_height*2, scale_width*2.5, scale_height),
         }
 
-    def create_slide(self, project_name, date):
+    def create_slide(self, project, h_offset=0.5, v_offset=1.3):
         blank_slide_layout = self.prs.slide_layouts[6]  # blank layout
         slide = self.prs.slides.add_slide(blank_slide_layout)
         
         # Add Project Name box
         project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(12), Inches(0.5))
         tf = project_name_box.text_frame
-        p = tf.add_paragraph()
-        p.text = project_name
+        p = tf.paragraphs[0]
+        p.text = project['Project Name']
         p.font.size = Pt(20)
         p.font.name = self.font_name
         p.alignment = PP_ALIGN.LEFT
@@ -45,15 +53,43 @@ class PPTXCreator:
         # Add Date box
         date_box = slide.shapes.add_textbox(Inches(13), Inches(0.5), Inches(2), Inches(0.5))
         tf = date_box.text_frame
-        p = tf.add_paragraph()
-        p.text = str(date)  # Change here
+        p = tf.paragraphs[0]
+        p.text = str(project['Date'])  # Change here
         p.font.size = Pt(20)
         p.font.name = self.font_name
         p.alignment = PP_ALIGN.RIGHT
-    
+        
+        # Add Lean Canvas sections
+        for section, (left, top, width, height) in self.positions.items():
+            if section in project['Lean Canvas']:
+                text = "\n".join(project['Lean Canvas'][section])
+                self.add_textbox(slide, left+h_offset, top+v_offset, width, height, text, section)
+
+        # Add 'Use cases' section separately
+        if 'Use cases' in project and project['Use cases']:
+            use_cases_text = "\n".join(project['Use cases'])
+            use_cases_box = slide.shapes.add_textbox(Inches(0+h_offset), Inches(3*self.scale_height+v_offset), Inches(5*self.scale_width), Inches(self.scale_height))
+            tf = use_cases_box.text_frame
+            tf.word_wrap = True
+            tf.auto_size = False
+            tf.text_anchor = MSO_ANCHOR.TOP
+            tf.clear()
+            
+            # Add 'Use cases' title
+            p = tf.paragraphs[0]
+            p.text = 'Use cases'
+            p.font.size = Pt(16)
+            p.font.name = self.font_name
+            p.font.color.rgb = RGBColor(0x00, 0x00, 0x00)  # Black color
+            
+            for line in use_cases_text.split('\n'):
+                p = tf.add_paragraph()
+                p.text = f"\u2022{line}"
+                p.level = 0
+                p.font.size = Pt(10)
+                p.font.name = self.font_name
+            
         return slide
-
-
 
     def add_textbox(self, slide, left, top, width, height, text, title):
         textbox = slide.shapes.add_textbox(Inches(left), Inches(top), Inches(width), Inches(height))
@@ -86,17 +122,13 @@ class PPTXCreator:
 
         return slide
 
-    def create_presentation(self, h_offset=0.5, v_offset=1.3):
-        for use_case in self.data['Use cases']:
-            if not use_case.get('Project Name'):
+    def create_presentation(self):
+        for project in self.data['Projects']:
+            if not project.get('Project Name'):
                 continue
-            if use_case.get('Project Name') is None:
+            if project.get('Project Name') is None:
                 continue
-            slide = self.create_slide(use_case['Project Name'], use_case['Date'])
-            for section, (left, top, width, height) in self.positions.items():
-                if section in use_case['Lean Canvas']:
-                    text = "\n".join(use_case['Lean Canvas'][section])
-                    self.add_textbox(slide, left+h_offset, top+v_offset, width, height, text, section)
+            self.create_slide(project)
 
     def save(self, output):
         self.prs.save(output)
@@ -108,19 +140,19 @@ class XLSXCreator:
 
     def create_worksheet(self):
         ws = self.wb.active
-        ws.title = "Use cases"
+        ws.title = "Projects"
 
         # ヘッダーの作成
-        headers = ['Project Name', 'Date'] + list(self.data['Use cases'][0]['Lean Canvas'].keys())
+        headers = ['Project Name', 'Date'] + list(self.data['Projects'][0]['Lean Canvas'].keys())
         ws.append(headers)
 
-        for use_case in self.data['Use cases']:
-            if not use_case.get('Project Name'):
+        for project in self.data['Projects']:
+            if not project.get('Project Name'):
                 continue
-            if use_case.get('Project Name') is None:
+            if project.get('Project Name') is None:
                 continue
-            row = [use_case['Project Name'], use_case['Date']]
-            for section, content in use_case['Lean Canvas'].items():
+            row = [project['Project Name'], project['Date']]
+            for section, content in project['Lean Canvas'].items():
                 row.append('\n'.join(content))
             ws.append(row)
 
