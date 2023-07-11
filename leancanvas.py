@@ -7,14 +7,6 @@ from openpyxl.utils import get_column_letter
 import yaml
 import argparse
 
-# PPTXファイルを作成するためのクラスを定義します
-import yaml
-from pptx import Presentation
-from pptx.util import Inches, Pt
-from pptx.enum.text import PP_ALIGN, MSO_ANCHOR, MSO_UNDERLINE
-from pptx.dml.color import RGBColor
-import argparse
-
 class PPTXCreator:
     # クラスの初期化メソッド
     def __init__(self, data, font_name='Yu Gothic UI', scale_width=3, scale_height=2.1):
@@ -72,8 +64,6 @@ class PPTXCreator:
             use_cases_text = "\n".join(project['Use cases'])
             use_cases_box = slide.shapes.add_textbox(Inches(0+h_offset), Inches(3*self.scale_height+v_offset), Inches(5*self.scale_width), Inches(self.scale_height))
             tf = use_cases_box.text_frame
-            tf.word_wrap = True
-            tf.auto_size = False
             tf.text_anchor = MSO_ANCHOR.TOP
             tf.clear()
 
