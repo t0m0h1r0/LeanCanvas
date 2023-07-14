@@ -177,7 +177,7 @@ class XLSXCreator:
 # コマンドライン引数を解析する関数です
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-i', '--input', default="sample.pptx", help='Input YAML file')
+    parser.add_argument('-i', '--input', default="sample.yaml", help='Input YAML file')
     parser.add_argument('-p', '--pptx-output', default="sample.pptx", help='Output file (PPTX)')
     parser.add_argument('-x', '--xlsx-output', default="sample.xlsx", help='Output file (XLSX)')
     args = parser.parse_args()
