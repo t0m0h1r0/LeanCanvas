@@ -165,7 +165,7 @@ def parse_arguments():
     return args
 
 
-def translate_file(input_file, output_file, api_key, max_chunk_size=5000):
+def translate_file(input_file, output_file, api_key, max_chunk_size):
     """
     入力ファイルを翻訳して出力ファイルに保存します。
 
@@ -183,3 +183,7 @@ def translate_file(input_file, output_file, api_key, max_chunk_size=5000):
     translated_lines = translator.translate_text_list(lines)
     data_translator.restore_from_text(data, translated_lines)
     yaml_handler.dump(data, output_file)
+
+if __name__ == "__main__":
+    args = parse_arguments()
+    translate_file(args.input, args.output, args.api_key, args.max_chunk_size)
