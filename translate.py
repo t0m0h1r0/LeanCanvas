@@ -83,6 +83,35 @@ class DeepLTranslator(Translator):
         )
         return response.json()["translations"][0]["text"]
 
+class GoogleTranslator(Translator):
+    def __init__(self, api_key, target_lang='EN', max_chunk_size=5000):
+        """
+        Google Translation APIを使用してテキストを翻訳する具象クラスです。
+
+        :param api_key: Google Translation APIの認証キー
+        :param target_lang: 翻訳対象の言語コード（デフォルトは英語）
+        :param max_chunk_size: 翻訳の分割上限文字数（デフォルトは5000）
+        """
+        super().__init__(api_key, target_lang, max_chunk_size)
+        self.url = "https://translation.googleapis.com/language/translate/v2"
+
+    def translate_text(self, text):
+        """
+        テキストをGoogle Translation APIを使用して翻訳します。
+
+        :param text: 翻訳するテキスト
+        :return: 翻訳後のテキスト
+        """
+        response = requests.post(
+            self.url,
+            data={
+                'key': self.api_key,
+                'q': text,
+                'target': self.target_lang,
+                'format': 'text'
+            },
+        )
+        return response.json()["data"]["translations"][0]["translatedText"]
 
 class DataTranslator:
     def parse_to_text(self, data):
