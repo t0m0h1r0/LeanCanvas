@@ -31,6 +31,19 @@ class PPTXCreator:
             'Revenue Streams': (scale_width*2.5, scale_height*2, scale_width*2.5, scale_height),
         }
 
+        self.section_order = {
+            'Customer Segments': 1,
+            'Problem': 2,
+            'Unique Value Proposition': 3,
+            'Solution': 4,
+            'Channels': 5,
+            'Revenue Streams': 6,
+            'Cost Structure': 7,
+            'Key Metrics': 8,
+            'Unfair Advantage': 9,
+        }
+
+
     # プロジェクト名のテキストボックスを作成するメソッド
     def create_project_name_box(self, slide, project):
         project_name_box = slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(12), Inches(0.5))
@@ -102,7 +115,8 @@ class PPTXCreator:
 
         # Add title with larger font size, green color, and underline
         p = tf.paragraphs[0]
-        p.text = title
+        order_number = self.section_order.get(title, '')
+        p.text = f"{order_number}. {title}"
         p.font.size = Pt(16)
         p.font.name = self.font_name
         p.font.color.rgb = RGBColor(0x00, 0x80, 0x00)  # Green color
