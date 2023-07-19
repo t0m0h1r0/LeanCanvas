@@ -52,6 +52,7 @@ class PPTXCreator:
         p.text = project['Project Name']
         p.font.size = Pt(20)
         p.font.name = self.font_name
+        p.font.color.rgb = RGBColor(0x00, 0x00, 0x00)  # Black color
         p.alignment = PP_ALIGN.LEFT
 
     # 日付のテキストボックスを作成するメソッド
@@ -62,6 +63,7 @@ class PPTXCreator:
         p.text = str(project['Date'])
         p.font.size = Pt(20)
         p.font.name = self.font_name
+        p.font.color.rgb = RGBColor(0x00, 0x00, 0x00)  # Black color
         p.alignment = PP_ALIGN.RIGHT
 
     # Lean Canvasの各セクションを作成するメソッド
@@ -128,6 +130,7 @@ class PPTXCreator:
             p.text = f"\u2022{line}"
             p.level = 0
             p.font.size = Pt(10)
+            p.font.color.rgb = RGBColor(0x00, 0x00, 0x00)  # Black color
             p.font.name = self.font_name
 
         # Add border to textbox
