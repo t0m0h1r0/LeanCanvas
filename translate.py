@@ -183,27 +183,29 @@ class YamlHandler:
         with open(filename, 'w') as file:
             self.yaml.dump(data, file)
 
-
 def parse_arguments():
-    parser = argparse.ArgumentParser(description="Translate a YAML file using the DeepL API.")
+    parser = argparse.ArgumentParser(description="Translate a YAML file.")
     parser.add_argument("--input", default="sample.yaml", help="Input YAML file name.")
     parser.add_argument("--output", default="sample_en.yaml", help="Output YAML file name.")
-    parser.add_argument("--api_key", required=True, help="DeepL API key.")
+    parser.add_argument("--api_key", required=True, help="Translation API key.")
     parser.add_argument("--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
+    parser.add_argument("--translator", choices=["deepl", "google"], default="deepl", help="Choice of translation method.")
     args = parser.parse_args()
     return args
 
+def create_translator(api_key, translator_type, max_chunk_size):
+    translator_classes = {
+        "deepl": DeepLTranslator,
+        "google": GoogleTranslator,
+    }
 
-def translate_file(input_file, output_file, api_key, max_chunk_size):
-    """
-    入力ファイルを翻訳して出力ファイルに保存します。
+    try:
+        return translator_classes[translator_type](api_key, max_chunk_size=max_chunk_size)
+    except KeyError:
+        raise ValueError(f"Unknown translator type: {translator_type}")
 
-    :param input_file: 入力ファイル名
-    :param output_file: 出力ファイル名
-    :param api_key: DeepL APIの認証キー
-    :param max_chunk_size: 翻訳の分割上限文字数
-    """
-    translator = DeepLTranslator(api_key, max_chunk_size=max_chunk_size)
+def translate_file(input_file, output_file, api_key, translator_type, max_chunk_size):
+    translator = create_translator(api_key, translator_type, max_chunk_size)
     data_translator = DataTranslator()
     yaml_handler = YamlHandler()
 
@@ -215,4 +217,4 @@ def translate_file(input_file, output_file, api_key, max_chunk_size):
 
 if __name__ == "__main__":
     args = parse_arguments()
-    translate_file(args.input, args.output, args.api_key, args.max_chunk_size)
+    translate_file(args.input, args.output, args.api_key, args.translator, args.max_chunk_size)
