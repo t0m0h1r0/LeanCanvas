@@ -297,16 +297,14 @@ def parse_arguments():
     parser.add_argument("-o", "--output", default="sample_en.yaml", help="Output YAML file name.")
     parser.add_argument("-m", "--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
     parser.add_argument("-t", "--translator", choices=["deepl", "google", "manual", "browser"], default="deepl", help="Choice of translation method.")
-    
+
     args = parser.parse_known_args()[0]
-    
-    if args.translator not in ["manual", "browser"]:
-        parser.add_argument("-k", "--api_key", required=True, help="Translation API key.")
-    else:
-        parser.add_argument("-k", "--api_key", required=False, help="Translation API key.")
+
+    require_api_key = args.translator in ["deepl", "google"]
+    parser.add_argument("-k", "--api_key", required=require_api_key, help="Translation API key.")
 
     args = parser.parse_args()
-    
+
     return args
 
 def create_translator(api_key, translator_type, max_chunk_size):
