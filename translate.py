@@ -51,6 +51,7 @@ class Translator:
             translated_chunk = self.translate_text('\n'.join(chunk))
             translated_text_list.extend(translated_chunk.split('\n'))
 
+        print(translated_text_list)
         return translated_text_list
 
 
@@ -112,6 +113,59 @@ class GoogleTranslator(Translator):
             },
         )
         return response.json()["data"]["translations"][0]["translatedText"]
+
+import sys
+class ManualTranslator(Translator):
+    def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
+        super().__init__(api_key, target_lang, max_chunk_size)
+
+    def translate_text_list(self, texts):
+        """
+        Translates a list of texts.
+
+        The texts are chunked together to avoid exceeding `self.max_chunk_size`.
+        After translation, the translated texts are returned as a single string.
+
+        :param texts: A list of texts to translate.
+        :return: The translated texts as a single string.
+        """
+
+        # Prepare to chunk texts
+        chunk = []  # Current chunk of texts
+        size = 0  # Current size of chunk
+
+        # Store all chunks of texts
+        chunks = []
+
+        # Process each text
+        for text in texts:
+            length = len(text)
+
+            # If current text fits in chunk, add it
+            if size + length <= self.max_chunk_size:
+                chunk.append(text)
+                size += length
+            # Otherwise, finalize current chunk and start a new one
+            else:
+                chunks.append('\n'.join(chunk))
+                chunk = [text]
+                size = length
+
+        # Finalize last chunk
+        if chunk:
+            chunks.append('\n'.join(chunk))
+
+        # Output chunks, collect translation, and return it
+        print('\n'.join(chunks))
+        
+        translated = []
+        for line in sys.stdin:
+            if line.rstrip('\n') == '':
+                continue
+            translated.append(line.rstrip('\n'))
+        print(translated)
+        
+        return translated
 
 class DataTranslator:
     def parse_to_text(self, data):
@@ -185,11 +239,11 @@ class YamlHandler:
 
 def parse_arguments():
     parser = argparse.ArgumentParser(description="Translate a YAML file.")
-    parser.add_argument("--input", default="sample.yaml", help="Input YAML file name.")
-    parser.add_argument("--output", default="sample_en.yaml", help="Output YAML file name.")
-    parser.add_argument("--api_key", required=True, help="Translation API key.")
-    parser.add_argument("--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
-    parser.add_argument("--translator", choices=["deepl", "google"], default="deepl", help="Choice of translation method.")
+    parser.add_argument("-i", "--input", default="sample.yaml", help="Input YAML file name.")
+    parser.add_argument("-o", "--output", default="sample_en.yaml", help="Output YAML file name.")
+    parser.add_argument("-k", "--api_key", required=False, help="Translation API key.")
+    parser.add_argument("-m", "--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
+    parser.add_argument("-t", "--translator", choices=["deepl", "google", "manual"], default="deepl", help="Choice of translation method.")
     args = parser.parse_args()
     return args
 
@@ -197,6 +251,7 @@ def create_translator(api_key, translator_type, max_chunk_size):
     translator_classes = {
         "deepl": DeepLTranslator,
         "google": GoogleTranslator,
+        "manual": ManualTranslator,
     }
 
     try:
