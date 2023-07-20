@@ -51,7 +51,6 @@ class Translator:
             translated_chunk = self.translate_text('\n'.join(chunk))
             translated_text_list.extend(translated_chunk.split('\n'))
 
-        print(translated_text_list)
         return translated_text_list
 
 
@@ -163,7 +162,6 @@ class ManualTranslator(Translator):
             if line.rstrip('\n') == '':
                 continue
             translated.append(line.rstrip('\n'))
-        print(translated)
         
         return translated
 
