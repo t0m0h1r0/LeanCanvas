@@ -77,7 +77,7 @@ class PPTXCreator:
     def create_use_cases_section(self, slide, project, h_offset=0.5, v_offset=1.3):
         if 'Use cases' in project and project['Use cases']:
             use_cases_text = "\n".join(project['Use cases'])
-            use_cases_box = slide.shapes.add_textbox(Inches(0+h_offset), Inches(3*self.scale_height+v_offset), Inches(5*self.scale_width), Inches(self.scale_height))
+            use_cases_box = slide.shapes.add_textbox(Inches(0+h_offset), Inches(3*self.scale_height+v_offset), Inches(5*self.scale_width), Inches(self.scale_height/2))
             tf = use_cases_box.text_frame
             tf.text_anchor = MSO_ANCHOR.TOP
             tf.clear()
