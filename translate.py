@@ -227,6 +227,46 @@ class DataTranslator:
                     self._restore_from_text_recursive(data[i], translated_lines)
 
 
+from selenium import webdriver
+from bs4 import BeautifulSoup
+from time import sleep
+
+class BrowserDeepLTranslator(Translator):
+    def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
+        """
+        ブラウザを起動し、DeepLに翻訳対象のテキストを貼り付け、翻訳結果を刈り取ってリストにする。
+
+        :param api_key: 未使用
+        :param target_lang: 翻訳対象の言語コード（デフォルトは英語）
+        :param max_chunk_size: 翻訳の分割上限文字数（デフォルトは5000）
+        """
+        super().__init__(api_key, target_lang, max_chunk_size)
+        self.driver = webdriver.Chrome()  # or whichever browser driver you have
+
+    def _translate_text(self, text):
+        """
+        ブラウザを操作してテキストをDeepLウェブサイトで翻訳します。
+
+        :param text: 翻訳するテキスト
+        :return: 翻訳後のテキスト
+        """
+        # Open DeepL website
+        self.driver.get("https://www.deepl.com/translator")
+
+        # Input the text to be translated
+        input_area = self.driver.find_element_by_css_selector(".lmt__source_textarea")
+        input_area.send_keys(text)
+
+        # Wait for the translation to finish
+        sleep(10)  # Adjust this value if your internet connection is slow
+
+        # Scrape the translated text
+        soup = BeautifulSoup(self.driver.page_source, 'html.parser')
+        translated_text = soup.select_one('.lmt__target_textarea').text
+
+        return translated_text
+
+
 class YamlHandler:
     def __init__(self):
         self.yaml = YAML()
@@ -255,10 +295,18 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Translate a YAML file.")
     parser.add_argument("-i", "--input", default="sample.yaml", help="Input YAML file name.")
     parser.add_argument("-o", "--output", default="sample_en.yaml", help="Output YAML file name.")
-    parser.add_argument("-k", "--api_key", required=False, help="Translation API key.")
     parser.add_argument("-m", "--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
-    parser.add_argument("-t", "--translator", choices=["deepl", "google", "manual"], default="deepl", help="Choice of translation method.")
+    parser.add_argument("-t", "--translator", choices=["deepl", "google", "manual", "browser"], default="deepl", help="Choice of translation method.")
+    
+    args = parser.parse_known_args()[0]
+    
+    if args.translator not in ["manual", "browser"]:
+        parser.add_argument("-k", "--api_key", required=True, help="Translation API key.")
+    else:
+        parser.add_argument("-k", "--api_key", required=False, help="Translation API key.")
+
     args = parser.parse_args()
+    
     return args
 
 def create_translator(api_key, translator_type, max_chunk_size):
@@ -266,6 +314,7 @@ def create_translator(api_key, translator_type, max_chunk_size):
         "deepl": DeepLTranslator,
         "google": GoogleTranslator,
         "manual": ManualTranslator,
+        "browser": BrowserDeepLTranslator,
     }
 
     try:
