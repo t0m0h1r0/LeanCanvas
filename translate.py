@@ -16,7 +16,7 @@ class Translator:
         self.target_lang = target_lang
         self.max_chunk_size = max_chunk_size
 
-    def translate_text(self, text):
+    def _translate_text(self, text):
         """
         テキストを翻訳します。具象クラスでオーバーライドして実装してください。
 
@@ -42,13 +42,13 @@ class Translator:
                 chunk.append(text)
                 chunk_size += text_len
             else:
-                translated_chunk = self.translate_text('\n'.join(chunk))
+                translated_chunk = self._translate_text('\n'.join(chunk))
                 translated_text_list.extend(translated_chunk.split('\n'))
                 chunk = [text]
                 chunk_size = text_len
 
         if chunk:
-            translated_chunk = self.translate_text('\n'.join(chunk))
+            translated_chunk = self._translate_text('\n'.join(chunk))
             translated_text_list.extend(translated_chunk.split('\n'))
 
         return translated_text_list
@@ -66,7 +66,7 @@ class DeepLTranslator(Translator):
         super().__init__(api_key, target_lang, max_chunk_size)
         self.url = "https://api-free.deepl.com/v2/translate"
 
-    def translate_text(self, text):
+    def _translate_text(self, text):
         """
         テキストをDeepL APIを使用して翻訳します。
 
@@ -95,7 +95,7 @@ class GoogleTranslator(Translator):
         super().__init__(api_key, target_lang, max_chunk_size)
         self.url = "https://translation.googleapis.com/language/translate/v2"
 
-    def translate_text(self, text):
+    def _translate_text(self, text):
         """
         テキストをGoogle Translation APIを使用して翻訳します。
 
@@ -116,54 +116,70 @@ class GoogleTranslator(Translator):
 import sys
 class ManualTranslator(Translator):
     def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
+        """
+        手動翻訳クラス。
+
+        :param api_key: 未使用
+        :param target_lang: 翻訳対象の言語コード（デフォルトは英語）
+        :param max_chunk_size: 翻訳の分割上限文字数（デフォルトは5000）
+        """
         super().__init__(api_key, target_lang, max_chunk_size)
 
-    def translate_text_list(self, texts):
+    def _translate_text(self, text):
         """
-        Translates a list of texts.
+        ユーザーによる手動翻訳のためのプロンプトを表示します。
 
-        The texts are chunked together to avoid exceeding `self.max_chunk_size`.
-        After translation, the translated texts are returned as a single string.
+        :param text: 翻訳するテキスト
+        :return: ユーザーが入力した翻訳テキスト
+        """
+        raise NotImplementedError("This method is not intended to be used in ManualTranslator.")
 
-        :param texts: A list of texts to translate.
-        :return: The translated texts as a single string.
+    def translate_text_list(self, text_list):
+        """
+        テキストのリストを翻訳します。
+
+        テキストは`self.max_chunk_size`を超えないようにチャンク化されます。
+        翻訳後、翻訳テキストは単一の文字列として返されます。
+
+        :param text_list: 翻訳するテキストのリスト
+        :return: 翻訳テキストのリスト
         """
 
-        # Prepare to chunk texts
-        chunk = []  # Current chunk of texts
-        size = 0  # Current size of chunk
+        # テキストのチャンク化の準備
+        chunk = []  # 現在のテキストチャンク
+        chunk_size = 0  # 現在のチャンクサイズ
 
-        # Store all chunks of texts
+        # すべてのテキストチャンクを保存
         chunks = []
 
-        # Process each text
-        for text in texts:
-            length = len(text)
+        # 各テキストを処理
+        for text in text_list:
+            text_len = len(text)
 
-            # If current text fits in chunk, add it
-            if size + length <= self.max_chunk_size:
+            # 現在のテキストがチャンクに収まる場合、追加する
+            if chunk_size + text_len <= self.max_chunk_size:
                 chunk.append(text)
-                size += length
-            # Otherwise, finalize current chunk and start a new one
+                chunk_size += text_len
+            # それ以外の場合、現在のチャンクを確定し、新しいチャンクを開始する
             else:
                 chunks.append('\n'.join(chunk))
                 chunk = [text]
-                size = length
+                chunk_size = text_len
 
-        # Finalize last chunk
+        # 最後のチャンクを確定
         if chunk:
             chunks.append('\n'.join(chunk))
 
-        # Output chunks, collect translation, and return it
+        # チャンクを出力し、翻訳を収集し、それを返す
         print('\n'.join(chunks))
         
-        translated = []
+        translated_text_list = []
         for line in sys.stdin:
-            if line.rstrip('\n') == '':
-                continue
-            translated.append(line.rstrip('\n'))
-        
-        return translated
+            line = line.rstrip('\n')
+            if line: 
+                translated_text_list.append(line)
+
+        return translated_text_list
 
 class DataTranslator:
     def parse_to_text(self, data):
