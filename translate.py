@@ -181,52 +181,6 @@ class ManualTranslator(Translator):
 
         return translated_text_list
 
-class DataTranslator:
-    def parse_to_text(self, data):
-        """
-        データをテキスト形式に変換します。
-
-        :param data: 変換するデータ
-        :return: テキスト形式に変換されたデータ（テキストのリスト）
-        """
-        lines = []
-        self._parse_to_text_recursive(data, lines)
-        return lines
-
-    def _parse_to_text_recursive(self, data, lines):
-        if isinstance(data, dict):
-            for v in data.values():
-                self._parse_to_text_recursive(v, lines)
-        elif isinstance(data, list):
-            for v in data:
-                self._parse_to_text_recursive(v, lines)
-        elif isinstance(data, str):
-            lines.append(data)
-
-    def restore_from_text(self, data, translated_lines):
-        """
-        翻訳後のテキストを元のデータ形式に戻します。
-
-        :param data: 元のデータ
-        :param translated_lines: 翻訳後のテキストのリスト
-        """
-        self._restore_from_text_recursive(data, iter(translated_lines))
-
-    def _restore_from_text_recursive(self, data, translated_lines):
-        if isinstance(data, dict):
-            for k, v in data.items():
-                if isinstance(v, str):
-                    data[k] = next(translated_lines)
-                else:
-                    self._restore_from_text_recursive(v, translated_lines)
-        elif isinstance(data, list):
-            for i in range(len(data)):
-                if isinstance(data[i], str):
-                    data[i] = next(translated_lines)
-                else:
-                    self._restore_from_text_recursive(data[i], translated_lines)
-
-
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from time import sleep
@@ -266,6 +220,67 @@ class BrowserDeepLTranslator(Translator):
 
         return translated_text
 
+class DataTranslator:
+    def __init__(self, keys=None):
+        """
+        データトランスレータの初期化。
+
+        :param keys: 翻訳するキーのリスト
+        """
+        self.keys = keys
+
+    def parse_to_text(self, data):
+        """
+        データをテキスト形式に変換します。
+
+        :param data: 変換するデータ
+        :return: テキスト形式に変換されたデータ（テキストのリスト）
+        """
+        lines = []
+        self._parse_to_text_recursive(data, lines, path=[])
+        return lines
+
+    def _parse_to_text_recursive(self, data, lines, path):
+        if isinstance(data, dict):
+            for k, v in data.items():
+                new_path = path + [k]
+                if self.keys is None or ".".join(new_path) in self.keys:
+                    self._parse_to_text_recursive(v, lines, new_path)
+        elif isinstance(data, list):
+            for i, v in enumerate(data):
+                new_path = path + [str(i)]
+                if self.keys is None or ".".join(new_path) in self.keys:
+                    self._parse_to_text_recursive(v, lines, new_path)
+        elif isinstance(data, str):
+            lines.append(data)
+
+    def restore_from_text(self, data, translated_lines):
+        """
+        翻訳後のテキストを元のデータ形式に戻します。
+
+        :param data: 元のデータ
+        :param translated_lines: 翻訳後のテキストのリスト
+        """
+        translated_lines_iter = iter(translated_lines)
+        self._restore_from_text_recursive(data, translated_lines_iter, path=[])
+
+    def _restore_from_text_recursive(self, data, translated_lines, path):
+        if isinstance(data, dict):
+            for k, v in data.items():
+                new_path = path + [k]
+                if self.keys is None or ".".join(new_path) in self.keys:
+                    if isinstance(v, str):
+                        data[k] = next(translated_lines)
+                    else:
+                        self._restore_from_text_recursive(v, translated_lines, new_path)
+        elif isinstance(data, list):
+            for i in range(len(data)):
+                new_path = path + [str(i)]
+                if self.keys is None or ".".join(new_path) in self.keys:
+                    if isinstance(data[i], str):
+                        data[i] = next(translated_lines)
+                    else:
+                        self._restore_from_text_recursive(data[i], translated_lines, new_path)
 
 class YamlHandler:
     def __init__(self):
@@ -297,11 +312,12 @@ def parse_arguments():
     parser.add_argument("-o", "--output", default="sample_en.yaml", help="Output YAML file name.")
     parser.add_argument("-m", "--max_chunk_size", default=5000, type=int, help="Maximum chunk size for translation.")
     parser.add_argument("-t", "--translator", choices=["deepl", "google", "manual", "browser"], default="deepl", help="Choice of translation method.")
+    parser.add_argument("-k", "--keys", nargs="*", help="Keys to be translated. If not specified, all keys are translated.")
 
     args = parser.parse_known_args()[0]
 
     require_api_key = args.translator in ["deepl", "google"]
-    parser.add_argument("-k", "--api_key", required=require_api_key, help="Translation API key.")
+    parser.add_argument("-a", "--api_key", required=require_api_key, help="Translation API key.")
 
     args = parser.parse_args()
 
@@ -321,15 +337,25 @@ def create_translator(api_key, translator_type, max_chunk_size):
         raise ValueError(f"Unknown translator type: {translator_type}")
 
 def translate_file(input_file, output_file, api_key, translator_type, max_chunk_size):
-    translator = create_translator(api_key, translator_type, max_chunk_size)
-    data_translator = DataTranslator()
+    translator = create_translator(args.api_key, args.translator, args.max_chunk_size)
+    data_translator = DataTranslator(args.keys)
     yaml_handler = YamlHandler()
 
-    data = yaml_handler.load(input_file)
-    lines = data_translator.parse_to_text(data)
-    translated_lines = translator.translate_text_list(lines)
-    data_translator.restore_from_text(data, translated_lines)
-    yaml_handler.dump(data, output_file)
+    # Load data from the input YAML file
+    data = yaml_handler.load(args.input)
+
+    # Convert the data to a list of texts
+    text_list = data_translator.parse_to_text(data)
+
+    # Translate the texts
+    translated_text_list = translator.translate_text_list(text_list)
+
+    # Restore the translated texts into the original data format
+    data_translator.restore_from_text(data, translated_text_list)
+
+    # Write the translated data to the output YAML file
+    yaml_handler.save(args.output, data)
+
 
 if __name__ == "__main__":
     args = parse_arguments()
