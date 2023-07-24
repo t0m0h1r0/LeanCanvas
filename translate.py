@@ -67,7 +67,6 @@ class DeepLTranslator(Translator):
         self.url = "https://api-free.deepl.com/v2/translate"
 
     def _translate_text(self, text):
-        print(text)
         """
         テキストをDeepL APIを使用して翻訳します。
 
@@ -82,7 +81,6 @@ class DeepLTranslator(Translator):
                 'target_lang': self.target_lang,
             },
         )
-        print(response.json())
         return response.json()["translations"][0]["text"]
 
 class GoogleTranslator(Translator):
@@ -241,13 +239,17 @@ class DataTranslator:
                 if self.keys is None or k in self.keys:
                     if isinstance(v, str):
                         lines.append(v)
-                    elif isinstance(v, list):
-                        lines.extend(item for item in v if isinstance(item, str))
+                    elif isinstance(v, (list, dict)):
+                        self._parse_to_text_recursive(v, lines)
                 else:
                     self._parse_to_text_recursive(v, lines)
         elif isinstance(data, list):
             for item in data:
-                self._parse_to_text_recursive(item, lines)
+                if isinstance(item, str):
+                    lines.append(item)
+                else:
+                    self._parse_to_text_recursive(item, lines)
+
 
     def parse_to_text(self, data):
         lines = []
@@ -264,15 +266,16 @@ class DataTranslator:
                 if self.keys is None or k in self.keys:
                     if isinstance(v, str):
                         data[k] = next(lines_iter)
-                    elif isinstance(v, list):
-                        for i in range(len(v)):
-                            if isinstance(v[i], str):
-                                v[i] = next(lines_iter)
-                else:
+                    elif isinstance(v, (list, dict)):
+                        self._restore_from_text_recursive(v, lines_iter)
+                elif isinstance(v, (list, dict)):
                     self._restore_from_text_recursive(v, lines_iter)
         elif isinstance(data, list):
-            for item in data:
-                self._restore_from_text_recursive(item, lines_iter)
+            for i in range(len(data)):
+                if isinstance(data[i], str):
+                    data[i] = next(lines_iter)
+                elif isinstance(data[i], (list, dict)):
+                    self._restore_from_text_recursive(data[i], lines_iter)
 
 class YamlHandler:
     def __init__(self):
