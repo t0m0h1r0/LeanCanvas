@@ -315,7 +315,7 @@ def parse_arguments():
     require_api_key = args.translator in ["deepl", "google"]
     parser.add_argument("-a", "--api_key", required=require_api_key, help="Translation API key.")
 
-    args.keys = None if args.keys == ['*'] else args.keys
+    args.keys = None if args.keys == [] else args.keys
     args = parser.parse_args()
 
     return args
