@@ -231,51 +231,39 @@ class DataTranslator:
 
 class DataTranslator:
     def __init__(self, keys=None):
+        # 翻訳するキーを設定。キーが指定されない場合はすべてのキーが対象となる
         self.keys = keys
 
-    def _parse_to_text_recursive(self, data, lines):
+    def _process_recursive(self, data, lines=None, is_parsing=False):
         if isinstance(data, dict):
-            for k, v in data.items():
-                if self.keys is None or k in self.keys:
-                    if isinstance(v, str):
-                        lines.append(v)
-                    elif isinstance(v, (list, dict)):
-                        self._parse_to_text_recursive(v, lines)
-                else:
-                    self._parse_to_text_recursive(v, lines)
+            items = data.items()
         elif isinstance(data, list):
-            for item in data:
-                if isinstance(item, str):
-                    lines.append(item)
-                else:
-                    self._parse_to_text_recursive(item, lines)
+            items = enumerate(data)
+        else:
+            return
 
+        for k, v in items:
+            if isinstance(v, (list, dict)):
+                self._process_recursive(v, lines, is_parsing)
+            elif (self.keys is None or k in self.keys) and isinstance(v, str):
+                if is_parsing:
+                    lines.append(v)
+                else:
+                    data[k] = next(lines)
 
     def parse_to_text(self, data):
+        # データからテキストを抽出
         lines = []
-        self._parse_to_text_recursive(data, lines)
+        self._process_recursive(data, lines, is_parsing=True)
         return lines
 
-    def restore_from_text(self, data, lines):
+    def restore_from_text(self, original_data, lines):
+        # テキストからデータを再構築
+        # 元のデータを変更せずに新しいデータを作成
+        data = copy.deepcopy(original_data)
         lines_iter = iter(lines)
-        self._restore_from_text_recursive(data, lines_iter)
-
-    def _restore_from_text_recursive(self, data, lines_iter):
-        if isinstance(data, dict):
-            for k, v in data.items():
-                if self.keys is None or k in self.keys:
-                    if isinstance(v, str):
-                        data[k] = next(lines_iter)
-                    elif isinstance(v, (list, dict)):
-                        self._restore_from_text_recursive(v, lines_iter)
-                elif isinstance(v, (list, dict)):
-                    self._restore_from_text_recursive(v, lines_iter)
-        elif isinstance(data, list):
-            for i in range(len(data)):
-                if isinstance(data[i], str):
-                    data[i] = next(lines_iter)
-                elif isinstance(data[i], (list, dict)):
-                    self._restore_from_text_recursive(data[i], lines_iter)
+        self._process_recursive(data, lines_iter, is_parsing=False)
+        return data
 
 class YamlHandler:
     def __init__(self):
@@ -348,10 +336,10 @@ def translate_file(input_file, output_file, api_key, translator_type, max_chunk_
     translated_text_list = translator.translate_text_list(text_list)
 
     # Restore the translated texts into the original data format
-    data_translator.restore_from_text(data, translated_text_list)
+    output_data = data_translator.restore_from_text(data, translated_text_list)
 
     # Write the translated data to the output YAML file
-    yaml_handler.dump(data, output_file)
+    yaml_handler.dump(output_data, output_file)
 
 
 if __name__ == "__main__":
