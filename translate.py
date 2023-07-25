@@ -229,27 +229,32 @@ class DataTranslator:
         """
         self.keys = keys
 
+import copy
 class DataTranslator:
     def __init__(self, keys=None):
         # 翻訳するキーを設定。キーが指定されない場合はすべてのキーが対象となる
         self.keys = keys
 
     def _process_recursive(self, data, lines=None, is_parsing=False):
+        # リストまたは辞書に対する処理を再帰的に行う
         if isinstance(data, dict):
-            items = data.items()
+            for k, v in data.items():
+                if isinstance(v, (list, dict)):
+                    self._process_recursive(v, lines, is_parsing)
+                elif self.keys is None or k in self.keys and isinstance(v, str):
+                    if is_parsing:
+                        lines.append(v)
+                    else:
+                        data[k] = next(lines)
         elif isinstance(data, list):
-            items = enumerate(data)
-        else:
-            return
-
-        for k, v in items:
-            if isinstance(v, (list, dict)):
-                self._process_recursive(v, lines, is_parsing)
-            elif (self.keys is None or k in self.keys) and isinstance(v, str):
-                if is_parsing:
-                    lines.append(v)
-                else:
-                    data[k] = next(lines)
+            for i in range(len(data)):
+                if isinstance(data[i], (list, dict)):
+                    self._process_recursive(data[i], lines, is_parsing)
+                elif isinstance(data[i], str):
+                    if is_parsing:
+                        lines.append(data[i])
+                    else:
+                        data[i] = next(lines)
 
     def parse_to_text(self, data):
         # データからテキストを抽出
