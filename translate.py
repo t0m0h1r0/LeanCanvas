@@ -144,10 +144,11 @@ class GoogleTranslator(Translator):
         )
         return response.json()["data"]["translations"][0]["translatedText"]
 
-import sys
+import os
 class ManualTranslator(Translator):
     def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
         super().__init__(api_key, target_lang, max_chunk_size)
+        self.file_path = "translation_input_output.txt"
 
     def _translate_text(self, text):
         """
@@ -157,7 +158,7 @@ class ManualTranslator(Translator):
         :return: The translated text provided by the user
         """
         # Write the text to be translated to a file
-        with open("translation_input_output.txt", "w", encoding="utf-8") as f:
+        with open(self.file_path, "w", encoding="utf-8") as f:
             f.write(text)
 
         # Inform the user to provide the translation
@@ -167,10 +168,19 @@ class ManualTranslator(Translator):
         input()
 
         # Read the translated text from the same file
-        with open("translation_input_output.txt", "r", encoding="utf-8") as f:
+        with open(self.file_path, "r", encoding="utf-8") as f:
             translated_text = f.read()
 
         return translated_text
+
+    def __del__(self):
+        """
+        Delete the file used for translation when the object is destroyed.
+        """
+        try:
+            os.remove(self.file_path)
+        except Exception as e:
+            print(f"Error occurred while trying to remove file {self.file_path}: {e}")
 
 from selenium import webdriver
 from bs4 import BeautifulSoup
