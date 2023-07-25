@@ -25,14 +25,14 @@ class Translator:
         """
         raise NotImplementedError()
 
-    def translate_text_list(self, text_list):
+    def _split_into_chunks(self, text_list):
         """
-        複数のテキストを翻訳します。
+        Split the input text list into chunks based on `self.max_chunk_size`.
 
-        :param text_list: 翻訳するテキストのリスト
-        :return: 翻訳後のテキストのリスト
+        :param text_list: List of texts to be translated
+        :return: List of text chunks
         """
-        translated_text_list = []
+        chunks = []
         chunk, chunk_size = [], 0
 
         for text in text_list:
@@ -42,15 +42,43 @@ class Translator:
                 chunk.append(text)
                 chunk_size += text_len
             else:
-                translated_chunk = self._translate_text('\n'.join(chunk))
-                translated_text_list.extend(translated_chunk.split('\n'))
+                chunks.append(chunk)
                 chunk = [text]
                 chunk_size = text_len
 
         if chunk:
-            translated_chunk = self._translate_text('\n'.join(chunk))
-            translated_text_list.extend(translated_chunk.split('\n'))
+            chunks.append(chunk)
 
+        return chunks
+
+    def _translate_chunks(self, chunks):
+        """
+        Translate each chunk in the list of chunks.
+
+        :param chunks: List of text chunks
+        :return: List of translated text chunks
+        """
+        translated_chunks = []
+        for chunk in chunks:
+            chunk_text = '\n'.join(chunk)
+            translated_chunk = self._translate_text(chunk_text)
+            translated_chunks.append(translated_chunk.split('\n'))
+        return translated_chunks
+
+    def _reassemble_chunks(self, translated_chunks):
+        """
+        Reassemble the translated text chunks into a list format.
+
+        :param translated_chunks: List of translated text chunks
+        :return: List of translated texts
+        """
+        translated_text_list = [line for chunk in translated_chunks for line in chunk]
+        return translated_text_list
+
+    def translate_text_list(self, text_list):
+        chunks = self._split_into_chunks(text_list)
+        translated_chunks = self._translate_chunks(chunks)
+        translated_text_list = self._reassemble_chunks(translated_chunks)
         return translated_text_list
 
 
@@ -116,70 +144,32 @@ class GoogleTranslator(Translator):
 import sys
 class ManualTranslator(Translator):
     def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
-        """
-        手動翻訳クラス。
-
-        :param api_key: 未使用
-        :param target_lang: 翻訳対象の言語コード（デフォルトは英語）
-        :param max_chunk_size: 翻訳の分割上限文字数（デフォルトは5000）
-        """
         super().__init__(api_key, target_lang, max_chunk_size)
 
     def _translate_text(self, text):
         """
-        ユーザーによる手動翻訳のためのプロンプトを表示します。
+        Display the text to be translated and receive the translated text from the user.
 
-        :param text: 翻訳するテキスト
-        :return: ユーザーが入力した翻訳テキスト
+        :param text: The text to be translated
+        :return: The translated text provided by the user
         """
-        raise NotImplementedError("This method is not intended to be used in ManualTranslator.")
+        # Write the text to be translated to a file
+        with open("text_to_translate.txt", "w") as f:
+            f.write(text)
 
-    def translate_text_list(self, text_list):
-        """
-        テキストのリストを翻訳します。
+        # Inform the user to provide the translation
+        print("Text to be translated:")
+        print(text)
+        print("Please provide the translation in the 'translated_text.txt' file and save it.")
 
-        テキストは`self.max_chunk_size`を超えないようにチャンク化されます。
-        翻訳後、翻訳テキストは単一の文字列として返されます。
+        # Wait for the user to finish providing the translation
+        input("Press Enter after you have finished providing the translation.")
 
-        :param text_list: 翻訳するテキストのリスト
-        :return: 翻訳テキストのリスト
-        """
+        # Read the translated text from the file
+        with open("translated_text.txt", "r") as f:
+            translated_text = f.read()
 
-        # テキストのチャンク化の準備
-        chunk = []  # 現在のテキストチャンク
-        chunk_size = 0  # 現在のチャンクサイズ
-
-        # すべてのテキストチャンクを保存
-        chunks = []
-
-        # 各テキストを処理
-        for text in text_list:
-            text_len = len(text)
-
-            # 現在のテキストがチャンクに収まる場合、追加する
-            if chunk_size + text_len <= self.max_chunk_size:
-                chunk.append(text)
-                chunk_size += text_len
-            # それ以外の場合、現在のチャンクを確定し、新しいチャンクを開始する
-            else:
-                chunks.append('\n'.join(chunk))
-                chunk = [text]
-                chunk_size = text_len
-
-        # 最後のチャンクを確定
-        if chunk:
-            chunks.append('\n'.join(chunk))
-
-        # チャンクを出力し、翻訳を収集し、それを返す
-        print('\n'.join(chunks))
-        
-        translated_text_list = []
-        for line in sys.stdin:
-            line = line.rstrip('\n')
-            if line: 
-                translated_text_list.append(line)
-
-        return translated_text_list
+        return translated_text
 
 from selenium import webdriver
 from bs4 import BeautifulSoup
@@ -266,10 +256,9 @@ class DataTranslator:
         parsed_data = copy.deepcopy(data)
         lines = []
         self._process_recursive(parsed_data, lines, is_parsing=True)
-        return '\n'.join(lines)
+        return lines
 
     def restore_from_text(self, original_data, lines):
-        print(original_data)
         data = copy.deepcopy(original_data)
         lines_iter = iter(lines)
         self._process_recursive(data, lines_iter, is_parsing=False)
