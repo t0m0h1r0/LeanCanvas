@@ -232,39 +232,44 @@ class DataTranslator:
 import copy
 class DataTranslator:
     def __init__(self, keys=None):
-        # 翻訳するキーを設定。キーが指定されない場合はすべてのキーが対象となる
         self.keys = keys
 
+    def _process_string(self, v, lines, is_parsing):
+        if is_parsing:
+            lines.append(v)
+        else:
+            return next(lines)
+
+    def _process_list(self, data, key, lines, is_parsing):
+        for i, item in enumerate(data):
+            if isinstance(item, str) and (self.keys is None or key in self.keys):
+                data[i] = self._process_string(item, lines, is_parsing)
+            elif isinstance(item, (list, dict)):
+                self._process_recursive(item, lines, is_parsing)
+
+    def _process_dict(self, data, lines, is_parsing):
+        for key, value in data.items():
+            if isinstance(value, str) and (self.keys is None or key in self.keys):
+                data[key] = self._process_string(value, lines, is_parsing)
+            elif isinstance(value, list):
+                self._process_list(value, key, lines, is_parsing)
+            if isinstance(value, dict):
+                self._process_recursive(value, lines, is_parsing)
+
     def _process_recursive(self, data, lines=None, is_parsing=False):
-        # リストまたは辞書に対する処理を再帰的に行う
         if isinstance(data, dict):
-            for k, v in data.items():
-                if isinstance(v, (list, dict)):
-                    self._process_recursive(v, lines, is_parsing)
-                elif self.keys is None or k in self.keys and isinstance(v, str):
-                    if is_parsing:
-                        lines.append(v)
-                    else:
-                        data[k] = next(lines)
+            self._process_dict(data, lines, is_parsing)
         elif isinstance(data, list):
-            for i in range(len(data)):
-                if isinstance(data[i], (list, dict)):
-                    self._process_recursive(data[i], lines, is_parsing)
-                elif isinstance(data[i], str):
-                    if is_parsing:
-                        lines.append(data[i])
-                    else:
-                        data[i] = next(lines)
+            self._process_list(data, None, lines, is_parsing)
 
     def parse_to_text(self, data):
-        # データからテキストを抽出
+        parsed_data = copy.deepcopy(data)
         lines = []
-        self._process_recursive(data, lines, is_parsing=True)
-        return lines
+        self._process_recursive(parsed_data, lines, is_parsing=True)
+        return '\n'.join(lines)
 
     def restore_from_text(self, original_data, lines):
-        # テキストからデータを再構築
-        # 元のデータを変更せずに新しいデータを作成
+        print(original_data)
         data = copy.deepcopy(original_data)
         lines_iter = iter(lines)
         self._process_recursive(data, lines_iter, is_parsing=False)
