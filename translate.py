@@ -32,6 +32,9 @@ class Translator:
         :param text_list: List of texts to be translated
         :return: List of text chunks
         """
+        if self.max_chunk_size <= 0:
+            return [text_list]  # Return the entire text_list as a single chunk
+
         chunks = []
         chunk, chunk_size = [], 0
 
@@ -148,25 +151,23 @@ class ManualTranslator(Translator):
 
     def _translate_text(self, text):
         """
-        Display the text to be translated and receive the translated text from the user.
+        Receive the translated text from the user.
 
         :param text: The text to be translated
         :return: The translated text provided by the user
         """
         # Write the text to be translated to a file
-        with open("text_to_translate.txt", "w") as f:
+        with open("translation_input_output.txt", "w", encoding="utf-8") as f:
             f.write(text)
 
         # Inform the user to provide the translation
-        print("Text to be translated:")
-        print(text)
-        print("Please provide the translation in the 'translated_text.txt' file and save it.")
+        print("Please provide the translation and press Enter.")
 
         # Wait for the user to finish providing the translation
-        input("Press Enter after you have finished providing the translation.")
+        input()
 
-        # Read the translated text from the file
-        with open("translated_text.txt", "r") as f:
+        # Read the translated text from the same file
+        with open("translation_input_output.txt", "r", encoding="utf-8") as f:
             translated_text = f.read()
 
         return translated_text
