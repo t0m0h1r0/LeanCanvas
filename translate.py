@@ -146,7 +146,7 @@ class GoogleTranslator(Translator):
 
 import os
 class ManualTranslator(Translator):
-    def __init__(self, api_key=None, target_lang='EN', max_chunk_size=5000):
+    def __init__(self, api_key=None, target_lang='EN', max_chunk_size=0):
         super().__init__(api_key, target_lang, max_chunk_size)
         self.file_path = "translation_input_output.txt"
 
